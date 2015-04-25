@@ -1,5 +1,8 @@
 package com.example.morgan.musiq;
 
+import android.content.Intent;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -27,6 +30,15 @@ public class Send extends ActionBarActivity {
         songMap.put("user", "user");
         songRef.setValue(songMap);
         //myFirebaseRef.child("message").setValue("Do you have data? You'll love Firebase.");
+
+        //Code to have user select a song:
+        Intent pickSongIntent = new Intent(Intent.ACTION_PICK,
+                MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult(pickSongIntent, 1);
+
+        //Uri songUri = pickSongIntent.getData();
+        //songMap.put("song", songUri);
+
     }
 
     @Override
@@ -42,6 +54,7 @@ public class Send extends ActionBarActivity {
                 sendSong(myFirebaseRef);
         }
       });
+
     }
 
 

@@ -16,24 +16,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="@string/song_title"
-        android:layout_marginTop="79dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_marginTop="59dp"
         android:background="@color/darkgrey"
         android:textColor="@color/blue"
-        android:clickable="false" />
+        android:clickable="false"
+        android:gravity="center_horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/button_send"
-        android:layout_marginTop="91dp"
         android:id="@+id/button"
-        android:layout_below="@+id/song_title"
-        android:layout_centerHorizontal="true"
         android:clickable="true"
         android:background="@color/darkgrey"
-        android:textColor="@color/blue" />
+        android:textColor="@color/blue"
+        android:layout_below="@+id/song_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="109dp" />
 
 
 </RelativeLayout>
