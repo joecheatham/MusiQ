@@ -5,7 +5,9 @@ $(function() {
 		song: {
     		title: "Runaway",
     		artist: "Kanye West",
-    		user: "Joe"
+    		user: "Joe",
+    		url: "https://file.ac/LSzynKQAFHQ/",
+    		file: "RoboCop.m4a"
 		}
     });
 	$('#qr_room_code').append("<img src='https://api.qrserver.com/v1/create-qr-code/?size=256x256&data=" + randStr + "'>");
