@@ -1,4 +1,10 @@
 #playa {
 	width: 100%;
-	height: 100;
 }
+.center-text-audio{
+	text-align: center;
+}
+
+/*body {
+	background-image: url("/img/banner.png");
+}*/
