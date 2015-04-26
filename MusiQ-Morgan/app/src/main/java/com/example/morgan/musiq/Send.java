@@ -1,6 +1,9 @@
 package com.example.morgan.musiq;
 
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
@@ -19,6 +22,7 @@ import com.parse.ParseObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
@@ -32,7 +36,7 @@ public class Send extends ActionBarActivity {
 //        myFirebaseRef.child("song/title").setValue("Hello Airmattress");
 //        myFirebaseRef.child("song/artist").setValue("Hello World");
 //        myFirebaseRef.child("song/user").setValue("Joe");
-       Firebase songRef = myFirebaseRef.child("song");
+        Firebase songRef = myFirebaseRef.child("song");
         Map<String, String> songMap = new HashMap<String, String>();
         songMap.put("title", "title");
         songMap.put("artist", "artist");
@@ -45,51 +49,71 @@ public class Send extends ActionBarActivity {
                 MediaStore.Audio.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickSongIntent, 1);
 
-        String songString = pickSongIntent.getDataString();
-        //songMap.put("song", songUri);
-        Log.i("test", songString);
-        songMap.put("song", songString);
-//        encodeFileToBase64Binary(songString);
-        File songFile = new File(songString);
+        //Sending audio file to parse cloud
+        Uri songPathUri = pickSongIntent.getData();
+        String songPath = getRealPathFromURI(getApplicationContext(), songPathUri);
+        //String songPath = songPathUri.getPath();
+        File songFile = new File(songPath);
+        byte[] byteArray = new byte[(int) songFile.length()];
+        try {
+            FileInputStream fileInputStream = new FileInputStream(songFile);
+            fileInputStream.read(byteArray);
+            for (int i = 0; i < byteArray.length; i++) {
+                System.out.print((char)byteArray[i]);
+            }
+        } catch (FileNotFoundException e) {
+        }
+        catch (IOException e1) {
+        }
+        //byte[] byteArray = pickSongIntent.getByteArrayExtra(songPath);
+
+
+        String songFileString = songFile.toString();
+        byte[] data = songFileString.getBytes();
+
+
+        ParseFile testFile = new ParseFile(songPath, data);
+        testFile.saveInBackground();
+
+
+        ParseObject audioFile = new ParseObject("audioFile");
+        audioFile.put("requesterName", "Morgan");
+        audioFile.put("songFile", testFile);
+        audioFile.saveInBackground();
+        //File songFile = new File(songPath);
+
+        //ParseObject audioFile = new ParseObject("audioFile");
+
+        Log.i("test", songPath);
+        songMap.put("song", songPath);
 
     }
-
-//    private String encodeFileToBase64Binary(String fileName)
-//            throws IOException {
-//
-//        File songFile = new File(fileName);
-//        byte[] bytes = loadFile(songFile);
-//        byte[] encoded = Base6
-//        String encodedString = new String(encoded);
-//
-//        return encodedString;
+    public String getRealPathFromURI(Context context, Uri contentUri) {
+        Cursor cursor = null;
+        try {
+            String[] proj = { MediaStore.Images.Media.DATA };
+            cursor = context.getContentResolver().query(contentUri,  proj, null, null, null);
+            int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+            cursor.moveToFirst();
+            return cursor.getString(column_index);
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+    }
+//    private String getRealPathFromURI(Uri contentUri) {
+//        String[] proj = { MediaStore.Images.Media.DATA };
+//        CursorLoader loader = new CursorLoader(getApplicationContext(), contentUri, proj, null, null, null);
+//        Cursor cursor = loader.loadInBackground();
+//        int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+//        cursor.moveToFirst();
+//        return cursor.getString(column_index);
 //    }
 
 
-//    private static byte[] loadFile(File songFile) {
-//        InputStream is = new FileInputStream(songFile);
-//
-//        long length = songFile.length();
-//        if (length > Integer.MAX_VALUE) {
-//            // File is too large
-//            System.err.println("File too large");
-//        }
-//        byte[] bytes = new byte[(int)length];
-//
-//        int offset = 0;
-//        int numRead = 0;
-//        while (offset < bytes.length
-//                && (numRead=is.read(bytes, offset, bytes.length-offset)) >= 0) {
-//            offset += numRead;
-//        }
-//
-//        if (offset < bytes.length) {
-//            throw new IOException("Could not completely read file "+file.getName());
-//        }
-//
-//        is.close();
-//        return bytes;
-//    }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,10 +128,7 @@ public class Send extends ActionBarActivity {
         final Firebase myFirebaseRef = new Firebase("https://musicq.firebaseio.com/tested");
         final Button button = (Button) findViewById(R.id.button);
 
-        
-        ParseFile testFile = new ParseFile("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View v) {
