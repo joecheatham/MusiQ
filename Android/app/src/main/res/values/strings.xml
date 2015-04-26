@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MusiQ</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_qr">QrActivity</string>
+    <string name="user">Enter your name</string>
+    <string name="button_send">Send Song</string>
+    <string name="join_string">Click to join the party!</string>
+</resources>
