@@ -93,12 +93,10 @@
     <div class="navbar navbar-default navbar-fixed-bottom">
         <div class="container-fluid">
     		<div id="audio-player" class="row-audio clearfix center-block text-center">
-			
-			<audio id="playa" controls>
-				<source src="" type="audio/mp3" />
-			</audio>
-
-		</div> 		
+				<audio id="playa" controls>
+					<source id='playa-song' src="" type="audio/mp3" />
+				</audio>
+			</div> 		
   		</div>
 </footer>
 

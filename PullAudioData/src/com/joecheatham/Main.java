@@ -14,12 +14,12 @@ public class Main {
 
     public static void main(String[] args) {
         try {
-            File file = new File("RoboCop.m4a");
+            File file = new File("ActMyAge.mp3");
             AudioFile f = AudioFileIO.read(file);
             Tag tag = f.getTag();
             AudioHeader audioHeader = f.getAudioHeader();
-            System.out.println("title: " + tag.getFirst("©nam"));
-            System.out.println("artist: " + tag.getFirst("soar"));
+            System.out.println("title: " + tag.getFirst("TIT2"));
+            System.out.println("artist: " + tag.getFirst("TPE1"));
         } catch (Exception e) {
 
         }
