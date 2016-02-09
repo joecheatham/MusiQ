@@ -85,7 +85,7 @@ public class Send extends ActionBarActivity {
 
         Parse.initialize(this, "GYHVvVUSZJktwunaYuNLHOY1mkyyJUUorp8PuGyd", "CQ9Q515w6I32qPxBRb8ymIVaY5NYNvcFz7uJfsGd");
 
-        myFirebaseRef = new Firebase("https://musicq.firebaseio.com/" + qrResults);
+        myFirebaseRef = new Firebase("https://musiq.firebaseio.com/" + qrResults);
         final Button button = (Button) findViewById(R.id.button);
 
         button.setOnClickListener(new View.OnClickListener() {

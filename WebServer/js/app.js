@@ -3,7 +3,7 @@ $(function() {
 	var i = 1;
 	var j = 1;
 	var randStr = "" + (new Date).getTime();
-	var firebase = new Firebase("https://musicq.firebaseio.com/" + randStr);
+	var firebase = new Firebase("https://musiq.firebaseio.com/" + randStr);
 	(function initializeFirebase() {
 		firebase.set({
 		song: {
